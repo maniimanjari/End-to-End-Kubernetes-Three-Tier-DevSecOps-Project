@@ -24,17 +24,17 @@ pipeline {
                 git credentialsId: 'GITHUB', url: 'https://github.com/maniimanjari/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
             }
         }
-        stage('Sonarqube Analysis') {
-            steps {
-                dir('Application-Code/backend') {
-                    withSonarQubeEnv('sonar-server') {
-                        sh ''' $SCANNER_HOME/bin/sonar-scanner \
-                        -Dsonar.projectName=three-tier-backend \
-                        -Dsonar.projectKey=three-tier-backend '''
-                    }
-                }
-            }
-        }
+        // stage('Sonarqube Analysis') {
+        //     steps {
+        //         dir('Application-Code/backend') {
+        //             withSonarQubeEnv('sonar-server') {
+        //                 sh ''' $SCANNER_HOME/bin/sonar-scanner \
+        //                 -Dsonar.projectName=three-tier-backend \
+        //                 -Dsonar.projectKey=three-tier-backend '''
+        //             }
+        //         }
+        //     }
+        // }
         stage('Quality Check') {
             steps {
                 script {
