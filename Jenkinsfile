@@ -73,8 +73,8 @@ pipeline {
                 script {
                         withCredentials([file(credentialsId: "jenkins123-key", variable: 'FILE')]) {
                             sh "gcloud auth activate-service-account jenkins123@clear-practice-430609-e0.iam.gserviceaccount.com --key-file=${FILE} --project=${ProjectID}"
-                            sh "gcloud auth configure-docker ;\
-                                docker push ${CR_REPO_NAME};"
+                            sh "gcloud auth configure-docker us-central1-docker.pkg.dev --quiet ;\
+                                docker push us-central1-docker.pkg.dev/backend;"
                         }
                         // sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI}'
                         // sh 'docker tag ${CR_REPO_NAME} ${REPOSITORY_URI}${CR_REPO_NAME}:${BUILD_NUMBER}'
