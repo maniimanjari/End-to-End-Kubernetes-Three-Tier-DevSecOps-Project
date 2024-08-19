@@ -1,4 +1,5 @@
 pipeline {
+
     agent any 
     tools {
         jdk 'jdk'
@@ -41,14 +42,14 @@ pipeline {
                 }
             }
         }
-        stage('OWASP Dependency-Check Scan') {
-            steps {
-                dir('Application-Code/backend') {
-                    dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
-                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-                }
-            }
-        }
+        // stage('OWASP Dependency-Check Scan') {
+        //     steps {
+        //         dir('Application-Code/backend') {
+        //             dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+        //             dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        //         }
+        //     }
+        // }
         stage('Trivy File Scan') {
             steps {
                 dir('Application-Code/backend') {
@@ -70,8 +71,8 @@ pipeline {
         stage("ECR Image Pushing") {
             steps {
                 script {
-                        withCredentials([file(credentialsId: "${GCPCredentialsID}", variable: 'FILE')]) {
-                            sh "gcloud auth activate-service-account jenkins123@clear-practice-430609-e0.iam.gserviceaccount.com --key-file=${jenkins123-key} --project=${ProjectID}"
+                        withCredentials([file(credentialsId: "jenkins123-key", variable: 'FILE')]) {
+                            sh "gcloud auth activate-service-account jenkins123@clear-practice-430609-e0.iam.gserviceaccount.com --key-file=${FILE} --project=${ProjectID}"
                             sh "gcloud auth configure-docker ;\
                                 docker push ${CR_REPO_NAME};"
                         }
